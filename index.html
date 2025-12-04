@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blockchain P2P Dashboard</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: #eee; padding: 1rem; }
+    .message { margin: 0.5rem 0; padding: 0.5rem; border-left: 3px solid lime; }
+    .block { border-left-color: cyan; }
+    .tx { border-left-color: orange; }
+    .status { border-left-color: gray; }
+  </style>
+</head>
+<body>
+  <h1>🌐 Global P2P Chain Dashboard</h1>
+  <div id="log"></div>
+
+  <script>
+    const ws = new WebSocket("ws://localhost:8080/ws");
+    ws.onmessage = function(event) {
+      const msg = JSON.parse(event.data);
+      const div = document.createElement("div");
+      div.className = "message " + msg.type;
+      div.textContent = `[${msg.type.toUpperCase()}] ${msg.sender}: ${msg.content}`;
+      document.getElementById("log").prepend(div);
+    };
+  </script>
+</body>
+</html>
